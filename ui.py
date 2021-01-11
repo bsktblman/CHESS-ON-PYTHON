@@ -18,6 +18,7 @@ class Chess(QMainWindow):
         uic.loadUi('chess.ui', self)
         self.board = Board()
         self.choose.hide()
+        self.step.setText('Ход белых' if self.board.color == 'White' else 'Ход чёрных')
         self.label_10.hide()
         self.new_game.hide()
         self.ok.hide()
@@ -50,14 +51,20 @@ class Chess(QMainWindow):
         # print(BUTTONS[self.sender()])
         COUNT += 1
         if COUNT % 2 == 1:
+            self.sender().setStyleSheet('background: "#32CD32";')
             self.first = BUTTONS[self.sender()]
             self.icon = self.sender().icon()
         else:
+            i, j = self.first
+            CORDS[self.first].setStyleSheet('background: "#FECE9E";'
+                                            if (i % 2 == 0 and j % 2 == 0)
+                                            or (i % 2 == 1 and j % 2 == 1)
+                                            else 'background: "#D18B46";')
             self.second = BUTTONS[self.sender()]
             if ((self.first[0] == 1 and self.second[0] == 0) or
-                (self.first[0] == 6 and self.second[0] == 7))\
+                (self.first[0] == 6 and self.second[0] == 7)) \
                     and isinstance(self.board.field[self.first[0]][self.first[1]], Pawn) and \
-                    self.board.field[self.second[0]][self.second[1]] is None :
+                    self.board.field[self.second[0]][self.second[1]] is None:
                 for key in BUTTONS.keys():
                     key.setEnabled(False)
                 self.choose.show()
@@ -69,6 +76,7 @@ class Chess(QMainWindow):
                 if result == 'Black':
                     self.make_move(self.first, self.icon)
                     self.winner.setText('Победа чёрных!')
+                    self.step.hide()
                     self.new_game.show()
                     for key in BUTTONS.keys():
                         key.setEnabled(False)
@@ -76,6 +84,7 @@ class Chess(QMainWindow):
                 elif result == 'White':
                     self.make_move(self.first, self.icon)
                     self.winner.setText('Победа белых!')
+                    self.step.hide()
                     self.new_game.show()
                     for key in BUTTONS.keys():
                         key.setEnabled(False)
@@ -87,9 +96,12 @@ class Chess(QMainWindow):
                         CORDS[result[1]].setIcon(QtGui.QIcon())
                         CORDS[result[2]].setIcon(icon)
                         sound.play()
+                        self.step.setText(
+                            'Ход белых' if self.board.color == 'White' else 'Ход чёрных')
                 elif result:
                     self.make_move(self.first, self.icon)
                     sound.play()
+                    self.step.setText('Ход белых' if self.board.color == 'White' else 'Ход чёрных')
 
     def make_move(self, cords, icon):
         CORDS[cords].setIcon(QtGui.QIcon())
@@ -107,3 +119,4 @@ class Chess(QMainWindow):
         CORDS[self.first].setIcon(QtGui.QIcon())
         CORDS[self.second].setIcon(QtGui.QIcon(f'Images/{color}/{color}'
                                                f'{dct[self.choose.selectedItems()[0].text()]}.svg'))
+        self.step.setText('Ход белых' if self.board.color == 'White' else 'Ход чёрных')
