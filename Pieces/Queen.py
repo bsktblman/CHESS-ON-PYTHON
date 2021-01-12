@@ -12,5 +12,4 @@ class Queen(BaseFigure):
                Bishop(self.row, self.col, self.color).can_move(board, row1, col1)
 
     def __str__(self):
-        return self.color + ' queen'
-    
+        return 'Queen'
