@@ -58,3 +58,6 @@ class King(BaseFigure):
                 return False
             return False
         return False
+
+    def __str__(self):
+        return 'King'
