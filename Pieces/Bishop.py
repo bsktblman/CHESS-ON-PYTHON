@@ -15,3 +15,6 @@ class Bishop(BaseFigure):
                                            range(self.col + step_y, col1, step_y))]):
                 return True
         return False
+
+    def __str__(self):
+        return 'Bishop'
