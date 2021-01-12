@@ -30,3 +30,6 @@ class Pawn(BaseFigure):
                     if self.row - row1 == 1 and abs(self.col - col1) == 1:
                         return True
         return False
+
+    def __str__(self):
+        return 'Pawn'
