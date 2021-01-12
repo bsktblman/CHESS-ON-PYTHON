@@ -19,3 +19,6 @@ class Rook(BaseFigure):
             if all(i is None for i in [board.field[x][col1] for x in range(self.row + s, row1, s)]):
                 return True
         return False
+
+    def __str__(self):
+        return 'Rook'
