@@ -10,3 +10,6 @@ class Knight(BaseFigure):
                 or (abs(self.col - col1) == 2 and abs(self.row - row1) == 1):
             return True
         return False
+
+    def __str__(self):
+        return 'Knight'
