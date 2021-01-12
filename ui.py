@@ -1,8 +1,9 @@
 from PyQt5 import uic, QtGui, QtCore
 from PyQt5.QtMultimedia import QSound
-from PyQt5.QtWidgets import QMainWindow, QPushButton
+from PyQt5.QtWidgets import QMainWindow, QPushButton, QListWidget, QListWidgetItem
 from Board import Board
 from Pieces.Pawn import Pawn
+
 
 BUTTONS, CORDS = {}, {}
 FILE_NAMES = ['Rook.svg', 'Knight.svg', 'Bishop.svg', 'Queen.svg', 'King.svg', 'Bishop.svg',
@@ -98,7 +99,15 @@ class Chess(QMainWindow):
                         sound.play()
                         self.step.setText(
                             'Ход белых' if self.board.color == 'White' else 'Ход чёрных')
-                elif result:
+                elif type(result) is list:
+                    p = result[1]
+                    if p is not None:
+                        item = QListWidgetItem('')
+                        item.setIcon(QtGui.QIcon(f'Images/{p.color}/{p.color}{p.__str__()}.svg'))
+                        if self.board.color == 'Black':
+                            self.show_white.addItem(item)
+                        else:
+                            self.show_black.addItem(item)
                     self.make_move(self.first, self.icon)
                     sound.play()
                     self.step.setText('Ход белых' if self.board.color == 'White' else 'Ход чёрных')
@@ -120,3 +129,4 @@ class Chess(QMainWindow):
         CORDS[self.second].setIcon(QtGui.QIcon(f'Images/{color}/{color}'
                                                f'{dct[self.choose.selectedItems()[0].text()]}.svg'))
         self.step.setText('Ход белых' if self.board.color == 'White' else 'Ход чёрных')
+
